@@ -33,4 +33,4 @@
 
 #### Построенная ER-Диаграмма
 
-<img src="https://github.com/Punctuality/Information_Systems_And_Databases_ITMO_2020/tree/master/lab1/Lab1-ER-Diagram.png" alt="ER-Diagram" width="400">
+![ER Diagram](Lab1-ER-Diagram.png)
