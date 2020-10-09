@@ -73,11 +73,20 @@ CREATE TABLE IF NOT EXISTS place_to_characteristic (
     p_characteristic_id INTEGER REFERENCES place_characteristic (p_characteristic_id)
 );
 
+CREATE TABLE IF NOT EXISTS action (
+    action_id SERIAL PRIMARY KEY,
+    place_id INTEGER REFERENCES place (place_id),
+    animal_id INTEGER REFERENCES animal (animal_id),
+    affected_by VARCHAR,
+    action VARCHAR
+);
+
 CREATE TABLE IF NOT EXISTS movement (
     movement_id SERIAL PRIMARY KEY,
     animal_id INTEGER REFERENCES animal (animal_id),
     from_place_id INTEGER REFERENCES place (place_id),
-    to_place_id INTEGER REFERENCES place (place_id)
+    to_place_id INTEGER REFERENCES place (place_id),
+    action_id INTEGER REFERENCES action (action_id)
 );
 ```
 
@@ -123,7 +132,58 @@ INSERT INTO place_to_characteristic (place_id, p_characteristic_id) VALUES
     (1, 1),
     (2, 2);
 
+-- Action
+
+INSERT INTO action (action_id, place_id, animal_id, affected_by, action) VALUES
+    (1, 1, 1, NULL, 'задержался'),
+    (2, 1, 1, 'свежая кровь', 'учуял запах крови'),
+    (3, 1, 1, 'свежая кровь', 'размышлял о запахе крови'),
+    (4, 2, 1, NULL, 'шагнул в пещеру');
+
 -- Movement
 
-INSERT INTO movement (animal_id, from_place_id, to_place_id) VALUES (1, 1, 2);
+INSERT INTO movement (animal_id, from_place_id, to_place_id, action_id) VALUES (1, 1, 2, 4);
 ```
+
+## Test Queries
+
+```sql
+-- Where did it go?
+
+SELECT species.name, from_p.place, to_p.place FROM animal
+INNER JOIN species on animal.species_id = species.species_id
+INNER JOIN movement on animal.animal_id = movement.animal_id
+INNER JOIN place from_p on from_p.place_id = movement.from_place_id
+INNER JOIN place to_p on to_p.place_id = movement.to_place_id;
+```
+| **name** | **from_p.place** | **to_p.place** |
+|----|----|----|
+|леопард|проход|пещера|
+```sql
+-- What is it?
+
+SELECT s.name, ac.characteristic FROM animal
+INNER JOIN species s on animal.species_id = s.species_id
+INNER JOIN animal_to_characteristic atc on animal.animal_id = atc.animal_id
+INNER JOIN animal_characteristic ac on ac.a_characteristic_id = atc.a_characteristic_id
+```
+| **name** | **characteristic** |
+|----|----|
+|леопард|убогий свирепый мозг|
+|леопард|неудержимо возбуждаем|
+|леопард|непоколебим|
+
+```sql
+-- What has it done?
+
+SELECT s.name, a.affected_by, a.action, p.place FROM animal
+INNER JOIN species s on s.species_id = animal.species_id
+INNER JOIN action a on animal.animal_id = a.animal_id
+Inner Join place p on p.place_id = a.place_id
+```
+| **name** | **affected_by** | **action** | **place** |
+|----|----|----|----|
+|леопард|*null*|задержался|проход|
+|леопард|свежая кровь|учуял запах крови|проход|
+|леопард|свежая кровь|размышлял о запахе крови|проход|
+|леопард|*null*|шагнул в пещеру|пещера|

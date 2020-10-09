@@ -33,9 +33,18 @@ CREATE TABLE IF NOT EXISTS place_to_characteristic (
     p_characteristic_id INTEGER REFERENCES place_characteristic (p_characteristic_id)
 );
 
+CREATE TABLE IF NOT EXISTS action (
+    action_id SERIAL PRIMARY KEY,
+    place_id INTEGER REFERENCES place (place_id),
+    animal_id INTEGER REFERENCES animal (animal_id),
+    affected_by VARCHAR,
+    action VARCHAR
+);
+
 CREATE TABLE IF NOT EXISTS movement (
     movement_id SERIAL PRIMARY KEY,
     animal_id INTEGER REFERENCES animal (animal_id),
     from_place_id INTEGER REFERENCES place (place_id),
-    to_place_id INTEGER REFERENCES place (place_id)
+    to_place_id INTEGER REFERENCES place (place_id),
+    action_id INTEGER REFERENCES action (action_id)
 );

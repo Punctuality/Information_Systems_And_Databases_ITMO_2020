@@ -37,6 +37,14 @@ INSERT INTO place_to_characteristic (place_id, p_characteristic_id) VALUES
     (1, 1),
     (2, 2);
 
+-- Action
+
+INSERT INTO action (action_id, place_id, animal_id, affected_by, action) VALUES
+    (1, 1, 1, NULL, 'задержался'),
+    (2, 1, 1, 'свежая кровь', 'учуял запах крови'),
+    (3, 1, 1, 'свежая кровь', 'размышлял о запахе крови'),
+    (4, 2, 1, NULL, 'шагнул в пещеру');
+
 -- Movement
 
-INSERT INTO movement (animal_id, from_place_id, to_place_id) VALUES (1, 1, 2);
+INSERT INTO movement (animal_id, from_place_id, to_place_id, action_id) VALUES (1, 1, 2, 4);
