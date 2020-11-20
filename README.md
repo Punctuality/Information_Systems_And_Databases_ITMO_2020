@@ -8,6 +8,7 @@
 |---------|-------|
 |[contrib](https://github.com/Punctuality/Information_Systems_And_Databases_ITMO_2020/tree/master/contrib)|docker contrib to set up the enviroment|
 |[lab1](https://github.com/Punctuality/Information_Systems_And_Databases_ITMO_2020/tree/master/lab1)|lab work #1|
+|[lab2](https://github.com/Punctuality/Information_Systems_And_Databases_ITMO_2020/tree/master/lab2)|lab work #2|
 
 ---
 
