@@ -70,6 +70,7 @@ WHERE
 ![Page_2](Plans_2.jpg)
 ![Page_3](Plans_3.jpg)
 ![Page_4](Plans_4.jpg)
+![Page_5](Plans_5.jpg)
 
 ## Indices
 
